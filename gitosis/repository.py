@@ -31,7 +31,7 @@ def init(
         cwd=path,
         stdout=sys.stderr,
         close_fds=True,
-        env=dict(GIT_DIR='.'),
+        env=dict(GIT_DIR='.', PATH=os.environ['PATH']),
         )
     if returncode != 0:
         raise GitInitError('exit status %d' % returncode)
@@ -56,7 +56,7 @@ def fast_import(
         cwd=git_dir,
         stdin=subprocess.PIPE,
         close_fds=True,
-        env=dict(GIT_DIR=git_dir),
+        env=dict(GIT_DIR=git_dir, PATH=os.environ['PATH']),
         )
     files = list(files)
     for index, (path, content) in enumerate(files):
@@ -105,7 +105,7 @@ def export(git_dir, path):
     returncode = subprocess.call(
         args=['git', 'read-tree', 'HEAD'],
         close_fds=True,
-        env=dict(GIT_DIR=git_dir),
+        env=dict(GIT_DIR=git_dir, PATH=os.environ['PATH']),
         )
     if returncode != 0:
         raise GitReadTreeError('exit status %d' % returncode)
@@ -118,7 +118,7 @@ def export(git_dir, path):
             '--prefix=%s' % path,
             ],
         close_fds=True,
-        env=dict(GIT_DIR=git_dir),
+        env=dict(GIT_DIR=git_dir, PATH=os.environ['PATH']),
         )
     if returncode != 0:
         raise GitCheckoutIndexError('exit status %d' % returncode)
@@ -135,7 +135,7 @@ def has_initial_commit(git_dir):
         cwd=git_dir,
         stdout=subprocess.PIPE,
         close_fds=True,
-        env=dict(GIT_DIR='.'),
+        env=dict(GIT_DIR='.', PATH=os.environ['PATH']),
         )
     got = child.stdout.read()
     returncode = child.wait()
