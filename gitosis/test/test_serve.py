@@ -117,6 +117,22 @@ def test_simple_read():
         )
     eq(got, "git-upload-pack '%s/foo.git'" % tmp)
 
+def test_simple_read_archive():
+    tmp = util.maketemp()
+    repository.init(os.path.join(tmp, 'foo.git'))
+    cfg = RawConfigParser()
+    cfg.add_section('gitosis')
+    cfg.set('gitosis', 'repositories', tmp)
+    cfg.add_section('group foo')
+    cfg.set('group foo', 'members', 'jdoe')
+    cfg.set('group foo', 'readonly', 'foo')
+    got = serve.serve(
+        cfg=cfg,
+        user='jdoe',
+        command="git-upload-archive 'foo'",
+        )
+    eq(got, "git-upload-archive '%s/foo.git'" % tmp)
+
 def test_simple_write():
     tmp = util.maketemp()
     repository.init(os.path.join(tmp, 'foo.git'))

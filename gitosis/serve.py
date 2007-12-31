@@ -19,6 +19,7 @@ ALLOW_RE = re.compile("^'(?P<path>[a-zA-Z0-9][a-zA-Z0-9@._-]*(/[a-zA-Z0-9][a-zA-
 
 COMMANDS_READONLY = [
     'git-upload-pack',
+    'git-upload-archive',
     ]
 
 COMMANDS_WRITE = [
