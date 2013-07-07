@@ -174,6 +174,9 @@ class Main(app.App):
             (user,) = args
         except ValueError:
             parser.error('Missing argument USER.')
+            
+        # sometimes hooks should know something about user
+        os.environ['GITOSIS_USER'] = user
 
         main_log = logging.getLogger('gitosis.serve.main')
         os.umask(0022)
